@@ -23,10 +23,8 @@
           },
           "policies": {
             "inbound": [
-              "api-key-inbound",
               "set-query-body",
-              "upstream-firebase-admin-auth-inbound",
-              "monetization-requests"
+              "upstream-firebase-admin-auth-inbound"
             ],
             "outbound": [
               "firestore-to-json"
@@ -81,12 +79,8 @@
           },
           "policies": {
             "inbound": [
-              "request-validation-inbound",
-              "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
-              "set-user-id",
-              "json-to-firestore",
-              "monetize-creates"
+              "json-to-firestore"
             ],
             "outbound": [
               "firestore-to-json"
@@ -155,12 +149,8 @@
           },
           "policies": {
             "inbound": [
-              "request-validation-inbound",
-              "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
-              "check-access",
-              "json-to-firestore",
-              "monetization-requests"
+              "json-to-firestore"
             ],
             "outbound": [
               "firestore-to-json"
@@ -234,10 +224,7 @@
           },
           "policies": {
             "inbound": [
-              "api-key-inbound",
-              "upstream-firebase-admin-auth-inbound",
-              "check-access",
-              "monetization-requests"
+              "upstream-firebase-admin-auth-inbound"
             ]
           }
         },
