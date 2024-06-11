@@ -23,10 +23,8 @@
           },
           "policies": {
             "inbound": [
-              "api-key-inbound",
               "set-query-body",
-              "upstream-firebase-admin-auth-inbound",
-              "monetization-requests"
+              "upstream-firebase-admin-auth-inbound"
             ],
             "outbound": [
               "firestore-to-json"
@@ -81,12 +79,8 @@
           },
           "policies": {
             "inbound": [
-              "request-validation-inbound",
-              "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
-              "set-user-id",
-              "json-to-firestore",
-              "monetize-creates"
+              "json-to-firestore"
             ],
             "outbound": [
               "firestore-to-json"
@@ -155,12 +149,8 @@
           },
           "policies": {
             "inbound": [
-              "request-validation-inbound",
-              "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
-              "check-access",
-              "json-to-firestore",
-              "monetization-requests"
+              "json-to-firestore"
             ],
             "outbound": [
               "firestore-to-json"
@@ -234,10 +224,7 @@
           },
           "policies": {
             "inbound": [
-              "api-key-inbound",
-              "upstream-firebase-admin-auth-inbound",
-              "check-access",
-              "monetization-requests"
+              "upstream-firebase-admin-auth-inbound"
             ]
           }
         },
@@ -257,30 +244,6 @@
             "description": "Todo item deleted successfully."
           }
         }
-      }
-    },
-    "/v1/summary": {
-      "x-zuplo-path": {
-        "pathMode": "open-api"
-      },
-      "get": {
-        "summary": "Get Summary",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
-        "x-zuplo-route": {
-          "corsPolicy": "none",
-          "handler": {
-            "export": "default",
-            "module": "$import(./modules/summary)",
-            "options": {}
-          },
-          "policies": {
-            "inbound": [
-              "api-key-inbound",
-              "upstream-firebase-admin-auth-inbound"
-            ]
-          }
-        },
-        "operationId": "05342bfa-4984-46c4-85b0-8e6fd5ea0071"
       }
     }
   },

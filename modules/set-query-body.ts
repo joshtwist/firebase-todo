@@ -13,18 +13,7 @@ export default async function policy(
         {
           "collectionId": "todos"
         }
-      ],
-      "where": {
-        "fieldFilter": {
-          "field": {
-            "fieldPath": "userId"
-          },
-          "op": "EQUAL",
-          "value": {
-            "stringValue": request.user.sub
-          }
-        }
-      }
+      ]
     }
   };
 
