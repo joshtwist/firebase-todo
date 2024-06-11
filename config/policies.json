@@ -82,6 +82,33 @@
       },
       "name": "request-validation-inbound",
       "policyType": "request-validation-inbound"
+    },
+    {
+      "handler": {
+        "export": "MonetizationInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "meters": {
+            "requests": 1
+          }
+        }
+      },
+      "name": "monetization-requests",
+      "policyType": "monetization-inbound"
+    },
+    {
+      "handler": {
+        "export": "MonetizationInboundPolicy",
+        "module": "$import(@zuplo/runtime)",
+        "options": {
+          "meters": {
+            "requests": 1,
+            "todoCreates": 1
+          }
+        }
+      },
+      "name": "monetize-creates",
+      "policyType": "monetization-inbound"
     }
   ]
 }
