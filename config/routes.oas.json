@@ -1,0 +1,118 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "My Zuplo API"
+  },
+  "paths": {
+    "/v1/todos": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "get": {
+        "summary": "Get all todos",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents:runQuery"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-inbound",
+              "set-query-body",
+              "upstream-firebase-admin-auth-inbound"
+            ],
+            "outbound": [
+              "firestore-to-json"
+            ]
+          }
+        },
+        "operationId": "5d048ab4-1e28-4260-b2fc-2c94288c1da0"
+      },
+      "post": {
+        "summary": "Create todo",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "anything-goes",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/todos"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-inbound",
+              "upstream-firebase-admin-auth-inbound",
+              "set-user-id",
+              "json-to-firestore"
+            ],
+            "outbound": [
+              "firestore-to-json"
+            ]
+          }
+        },
+        "operationId": "e9f18a81-f8c8-4b1e-88a7-4a3f6a3937dd"
+      }
+    },
+    "/v1/todos/{todoId}": {
+      "x-zuplo-path": {
+        "pathMode": "open-api"
+      },
+      "patch": {
+        "summary": "Update todo",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/todos/${params.todoId}?updateMask.fieldPaths=complete&updateMask.fieldPaths=description&updateMask.fieldPaths=complete"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-inbound",
+              "upstream-firebase-admin-auth-inbound",
+              "check-access",
+              "json-to-firestore"
+            ],
+            "outbound": [
+              "firestore-to-json"
+            ]
+          }
+        },
+        "operationId": "5885b043-e78a-4191-844d-486f37d7cb2e"
+      },
+      "delete": {
+        "summary": "Delete Todo",
+        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "x-zuplo-route": {
+          "corsPolicy": "none",
+          "handler": {
+            "export": "urlRewriteHandler",
+            "module": "$import(@zuplo/runtime)",
+            "options": {
+              "rewritePattern": "https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/todos/${params.todoId}"
+            }
+          },
+          "policies": {
+            "inbound": [
+              "api-key-inbound",
+              "upstream-firebase-admin-auth-inbound",
+              "check-access"
+            ]
+          }
+        },
+        "operationId": "44b53dd4-accb-47e7-a7b6-0ad8552b6c68"
+      }
+    }
+  }
+}
