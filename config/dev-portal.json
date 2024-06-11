@@ -1,5 +1,12 @@
 {
   "$schema": "https://cdn.zuplo.com/schemas/dev-portal.json",
   "enabled": true,
-  "enableAuthentication": true
+  "enableAuthentication": true,
+  "enableMonetization": true,
+  "monetization": {
+    "provider": "stripe",
+    "pricingTableId": "prctbl_1PQLEjLKveTjWIOSQZEgf8JF",
+    "publishableKey": "pk_test_51PQL8kLKveTjWIOSb8W9mo8z5f7tNYXF9BAueSLc8xXKifpkaUH0bpYaooiV4k3sM2CMb4zZqgQVHA7Jv4H06ZIR00WBdbnaHM",
+    "secretKey": "$env(STRIPE_SECRET_KEY)"
+  }
 }
