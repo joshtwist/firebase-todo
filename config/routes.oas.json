@@ -258,30 +258,6 @@
           }
         }
       }
-    },
-    "/v1/summary": {
-      "x-zuplo-path": {
-        "pathMode": "open-api"
-      },
-      "get": {
-        "summary": "Get Summary",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
-        "x-zuplo-route": {
-          "corsPolicy": "none",
-          "handler": {
-            "export": "default",
-            "module": "$import(./modules/summary)",
-            "options": {}
-          },
-          "policies": {
-            "inbound": [
-              "api-key-inbound",
-              "upstream-firebase-admin-auth-inbound"
-            ]
-          }
-        },
-        "operationId": "05342bfa-4984-46c4-85b0-8e6fd5ea0071"
-      }
     }
   },
   "components": {
