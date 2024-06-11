@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "version": "1.0.0",
-    "title": "My Zuplo API"
+    "title": "My Awesome Todo API"
   },
   "paths": {
     "/v1/todos": {
@@ -11,7 +11,7 @@
       },
       "get": {
         "summary": "Get all todos",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "description": "Retrieve all todo items.",
         "x-zuplo-route": {
           "corsPolicy": "anything-goes",
           "handler": {
@@ -23,6 +23,7 @@
           },
           "policies": {
             "inbound": [
+              "request-validation-inbound",
               "api-key-inbound",
               "set-query-body",
               "upstream-firebase-admin-auth-inbound"
@@ -32,11 +33,43 @@
             ]
           }
         },
-        "operationId": "5d048ab4-1e28-4260-b2fc-2c94288c1da0"
+        "operationId": "5d048ab4-1e28-4260-b2fc-2c94288c1da0",
+        "responses": {
+          "200": {
+            "description": "A list of todo items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Todo"
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "summary": "A list of todos",
+                    "value": [
+                      {
+                        "id": "1",
+                        "description": "Buy groceries",
+                        "complete": false
+                      },
+                      {
+                        "id": "2",
+                        "description": "Read a book",
+                        "complete": true
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "summary": "Create todo",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "description": "Create a new todo item.",
         "x-zuplo-route": {
           "corsPolicy": "anything-goes",
           "handler": {
@@ -48,6 +81,7 @@
           },
           "policies": {
             "inbound": [
+              "request-validation-inbound",
               "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
               "set-user-id",
@@ -58,7 +92,48 @@
             ]
           }
         },
-        "operationId": "e9f18a81-f8c8-4b1e-88a7-4a3f6a3937dd"
+        "operationId": "e9f18a81-f8c8-4b1e-88a7-4a3f6a3937dd",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewTodo"
+              },
+              "examples": {
+                "example-1": {
+                  "summary": "New todo",
+                  "value": {
+                    "description": "Go to the gym",
+                    "complete": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Todo item created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                },
+                "examples": {
+                  "example-1": {
+                    "summary": "Created todo",
+                    "value": {
+                      "id": "3",
+                      "description": "Go to the gym",
+                      "complete": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/todos/{todoId}": {
@@ -67,7 +142,7 @@
       },
       "patch": {
         "summary": "Update todo",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "description": "Update an existing todo item.",
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
@@ -79,6 +154,7 @@
           },
           "policies": {
             "inbound": [
+              "request-validation-inbound",
               "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
               "check-access",
@@ -89,11 +165,62 @@
             ]
           }
         },
-        "operationId": "5885b043-e78a-4191-844d-486f37d7cb2e"
+        "operationId": "5885b043-e78a-4191-844d-486f37d7cb2e",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodo"
+              },
+              "examples": {
+                "example-1": {
+                  "summary": "Update todo",
+                  "value": {
+                    "description": "Go to the gym and swim",
+                    "complete": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Todo item updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                },
+                "examples": {
+                  "example-1": {
+                    "summary": "Updated todo",
+                    "value": {
+                      "id": "3",
+                      "description": "Go to the gym and swim",
+                      "complete": true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       "delete": {
-        "summary": "Delete Todo",
-        "description": "Lorem ipsum dolor sit amet, **consectetur adipiscing** elit, sed do `eiusmod tempor` incididunt ut labore et dolore magna aliqua.",
+        "summary": "Delete todo",
+        "description": "Delete a todo item.",
         "x-zuplo-route": {
           "corsPolicy": "none",
           "handler": {
@@ -105,13 +232,81 @@
           },
           "policies": {
             "inbound": [
+              "request-validation-inbound",
               "api-key-inbound",
               "upstream-firebase-admin-auth-inbound",
               "check-access"
             ]
           }
         },
-        "operationId": "44b53dd4-accb-47e7-a7b6-0ad8552b6c68"
+        "operationId": "44b53dd4-accb-47e7-a7b6-0ad8552b6c68",
+        "parameters": [
+          {
+            "name": "todoId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Todo item deleted successfully."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Todo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "complete": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "complete"
+        ],
+        "additionalProperties": false
+      },
+      "NewTodo": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "complete": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "description",
+          "complete"
+        ],
+        "additionalProperties": false
+      },
+      "UpdateTodo": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "complete": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
       }
     }
   }
